@@ -47,8 +47,6 @@ polygon = PoolVector2Array( 5, -25.2, 5, -21.4, 20.9, 19, 17.5, 19, -4, 29.2, -4
 "asteroid",
 ]]
 position = Vector2( 800, 500 )
-collision_layer = 4
-collision_mask = 31
 mass = 100.0
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
@@ -68,8 +66,6 @@ polygon = PoolVector2Array( 21, -17.3, 21, -14.3, 29.1, 4, 26.3, 4, 20.3, 18, 18
 "enemy",
 ]]
 position = Vector2( 200, 200 )
-collision_layer = 2
-collision_mask = 31
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Enemies/Enemy"]
