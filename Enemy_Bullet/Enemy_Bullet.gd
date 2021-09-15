@@ -26,3 +26,5 @@ func _on_Bullet_body_entered(body):
 	if body.has_method("die"):
 		body.die()
 	queue_free()
+
+
