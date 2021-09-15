@@ -1,18 +1,18 @@
-extends KinematicBody2D
+extends RigidBody2D
 
-var VP = Vector2.ZERO
-var velocity = Vector2(1,0)
-var min_speed = 0.1
-var max_speed = 2
+var screensize = Vector2.ZERO
 
 func _ready():
-	VP = get_viewport().size
-	randomize()
-	velocity = velocity.normalized().rotated(randf()*2*PI) * clamp(randf()*max_speed + min_speed, min_speed, max_speed)
+	screensize = get_viewport().size
 
-func _physics_process(_delta):
-	position += velocity
-	position.x = wrapf(position.x,0,VP.x)
-	position.y = wrapf(position.y,0,VP.y)
-
-
+func _integrate_forces(state):
+	var xform = state.get_transform()
+	if xform.origin.x > screensize.x:
+		xform.origin.x = 0
+	if xform.origin.x < 0:
+		xform.origin.x = screensize.x
+	if xform.origin.y > screensize.y:
+		xform.origin.y = 0
+	if xform.origin.y < 0:
+		xform.origin.y = screensize.y
+	state.set_transform(xform)

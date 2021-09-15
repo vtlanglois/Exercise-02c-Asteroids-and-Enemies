@@ -2,24 +2,35 @@ extends KinematicBody2D
 
 var VP := Vector2.ZERO
 var velocity := Vector2.ZERO
-var acceleration := 0.2
+var acceleration := 0.1
 var rotation_accel := 0.075
-var max_speed := 9.0
+var max_speed := 10
+
+var push := 400
+var reflect := 2
 
 var Bullet = preload("res://Bullet/Bullet.tscn")
 var Bullets = null
+
+var Explosion = preload("res://Explosion/Explosion_ship.tscn")
+var Explosions = null
 
 func _ready():
 	VP = get_viewport().size
 
 func _physics_process(_delta):
+	position.x = wrapf(position.x,0,VP.x)
+	position.y = wrapf(position.y,0,VP.y)
 	rotation += get_rotation()*rotation_accel
 	velocity += get_input()*acceleration
 	velocity = velocity.normalized() * clamp(velocity.length(),0,max_speed)
-	position += velocity
-	position.x = wrapf(position.x,0,VP.x)
-	position.y = wrapf(position.y,0,VP.y)
-	
+	var collision = move_and_collide(velocity,false)
+	if collision != null and collision.collider.is_in_group("asteroid"):
+		collision.collider.apply_central_impulse(-collision.normal * push)
+		velocity = velocity + collision.normal*reflect
+	if collision != null and collision.collider.is_in_group("enemy"):
+		die()
+
 	if Input.is_action_just_pressed("shoot"):
 		if Bullets == null:
 			Bullets = get_node_or_null("/root/Game/Bullets")
@@ -30,6 +41,12 @@ func _physics_process(_delta):
 			Bullets.add_child(bullet)
 
 func die():
+	if Explosions == null:
+		Explosions = get_node_or_null("/root/Game/Explosions")
+	if Explosions != null:
+		var explosion = Explosion.instance()
+		explosion.position = position
+		Explosions.add_child(explosion)
 	queue_free()
 
 func get_input():
@@ -48,9 +65,3 @@ func get_rotation():
 	if Input.is_action_pressed("left"):
 		toReturn -= 1.0
 	return toReturn
-
-
-func _on_Collide_body_entered(body):
-	if body.has_method("die"):
-		body.die()
-	die()

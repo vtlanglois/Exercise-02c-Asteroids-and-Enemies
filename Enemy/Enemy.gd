@@ -10,12 +10,9 @@ var Enemy_Bullet = preload("res://Enemy_Bullet/Enemy_Bullet.tscn")
 func _ready():
 	VP = get_viewport().size
 	randomize()
-	position = Vector2(-40,400)
 
 func _physics_process(_delta):
-	position += velocity
-	if position.x > VP.x + 50 or position.x < -50:
-		queue_free()
+	pass
 
 func die():
 	queue_free()

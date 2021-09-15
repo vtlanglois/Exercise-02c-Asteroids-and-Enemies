@@ -8,8 +8,10 @@
 [ext_resource path="res://Assets/asteroid_large.png" type="Texture" id=6]
 [ext_resource path="res://Asteroid/Asteroid.gd" type="Script" id=7]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 30.0
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.2
+bounce = 0.75
+absorbent = true
 
 [node name="Game" type="Node2D"]
 
@@ -23,7 +25,6 @@ __meta__ = {
 
 [node name="Player" type="KinematicBody2D" parent="."]
 position = Vector2( 512, 300 )
-collision_mask = 0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -40,19 +41,19 @@ texture = ExtResource( 3 )
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
 polygon = PoolVector2Array( 5, -25.2, 5, -21.4, 20.9, 19, 17.5, 19, -4, 29.2, -4, 26.2, -20, 18.2, -20, 13.6, -3, -25.3, -3, -29.2 )
 
-[node name="Collide" type="Area2D" parent="Player"]
-collision_layer = 0
-collision_mask = 6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Collide"]
-shape = SubResource( 1 )
-
 [node name="Asteroids" type="Node2D" parent="."]
 
-[node name="Asteroid" type="KinematicBody2D" parent="Asteroids"]
+[node name="Asteroid" type="RigidBody2D" parent="Asteroids" groups=[
+"asteroid",
+]]
 position = Vector2( 800, 500 )
 collision_layer = 4
-collision_mask = 0
+collision_mask = 31
+mass = 100.0
+physics_material_override = SubResource( 1 )
+gravity_scale = 0.0
+contacts_reported = 4
+contact_monitor = true
 script = ExtResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="Asteroids/Asteroid"]
@@ -63,9 +64,12 @@ polygon = PoolVector2Array( 21, -17.3, 21, -14.3, 29.1, 4, 26.3, 4, 20.3, 18, 18
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Enemy" type="KinematicBody2D" parent="Enemies"]
+[node name="Enemy" type="KinematicBody2D" parent="Enemies" groups=[
+"enemy",
+]]
+position = Vector2( 200, 200 )
 collision_layer = 2
-collision_mask = 0
+collision_mask = 31
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Enemies/Enemy"]
@@ -81,5 +85,4 @@ autostart = true
 
 [node name="Explosions" type="Node2D" parent="."]
 
-[connection signal="body_entered" from="Player/Collide" to="Player" method="_on_Collide_body_entered"]
 [connection signal="timeout" from="Enemies/Enemy/Timer" to="Enemies/Enemy" method="_on_Timer_timeout"]
