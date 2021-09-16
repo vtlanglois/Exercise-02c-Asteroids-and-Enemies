@@ -1,17 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/thrust.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/ship.png" type="Texture" id=3]
-[ext_resource path="res://Enemy/Enemy.gd" type="Script" id=4]
-[ext_resource path="res://Assets/enemy.png" type="Texture" id=5]
-[ext_resource path="res://Assets/asteroid_large.png" type="Texture" id=6]
-[ext_resource path="res://Asteroid/Asteroid.gd" type="Script" id=7]
-
-[sub_resource type="PhysicsMaterial" id=1]
-friction = 0.2
-bounce = 0.75
-absorbent = true
 
 [node name="Game" type="Node2D"]
 
@@ -43,43 +34,8 @@ polygon = PoolVector2Array( 5, -25.2, 5, -21.4, 20.9, 19, 17.5, 19, -4, 29.2, -4
 
 [node name="Asteroids" type="Node2D" parent="."]
 
-[node name="Asteroid" type="RigidBody2D" parent="Asteroids" groups=[
-"asteroid",
-]]
-position = Vector2( 800, 500 )
-mass = 100.0
-physics_material_override = SubResource( 1 )
-gravity_scale = 0.0
-contacts_reported = 4
-contact_monitor = true
-script = ExtResource( 7 )
-
-[node name="Sprite" type="Sprite" parent="Asteroids/Asteroid"]
-texture = ExtResource( 6 )
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Asteroids/Asteroid"]
-polygon = PoolVector2Array( 21, -17.3, 21, -14.3, 29.1, 4, 26.3, 4, 20.3, 18, 18.6, 18, 2.6, 28, -2.5, 28, -21, 17.1, -21, 14.3, -29.1, -4, -26.2, -4, -17.2, -21, -14.5, -21, -4, -26.2, -4, -29.2 )
-
 [node name="Enemies" type="Node2D" parent="."]
-
-[node name="Enemy" type="KinematicBody2D" parent="Enemies" groups=[
-"enemy",
-]]
-position = Vector2( 200, 200 )
-script = ExtResource( 4 )
-
-[node name="Sprite" type="Sprite" parent="Enemies/Enemy"]
-texture = ExtResource( 5 )
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Enemies/Enemy"]
-polygon = PoolVector2Array( -8, -26.8, -8, -24.8, -4, -20.8, -4, -15, 4, -15, 4, -20.8, 11.2, -28, 20.7, -28, 26, -24, 26, -21.4, 28.5, -10, 25.9, -10, 20.9, -4, 15, -4, 15, 4, 20.8, 4, 28, 11.2, 28, 22, 25.9, 22, 20.9, 28, 10, 28, 10, 25.9, 4, 20.9, 4, 15, -4, 15, -4, 20.8, -11.2, 28, -20.7, 28, -27, 23, -27, 19.9, -25.8, 7, -23.8, 7, -20.8, 4, -15, 4, -15, -4, -20.8, -4, -28, -11.2, -28, -20.9, -22, -25.9, -22, -28.2 )
-
-[node name="Timer" type="Timer" parent="Enemies/Enemy"]
-wait_time = 0.6
-autostart = true
 
 [node name="Bullets" type="Node2D" parent="."]
 
 [node name="Explosions" type="Node2D" parent="."]
-
-[connection signal="timeout" from="Enemies/Enemy/Timer" to="Enemies/Enemy" method="_on_Timer_timeout"]
