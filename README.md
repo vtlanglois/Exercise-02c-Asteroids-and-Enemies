@@ -50,9 +50,7 @@ func die():
 		Explosions.add_child(explosion)
 	queue_free()
 ```
-In the Node Panel->Groups, make sure the Enemy is in the "enemy" group. Then select the Timer. 
-
-The Timer should be set to Autostart with a Wait Time of 0.6 seconds. Add a new Node->Signals->timeout() signal. Attach the _on_Timer_timeout() method to the Enemy.gd script. That will create a new function at the bottom of your script. That function should appear as follows:
+Select the Timer. The Timer should be set to Autostart with a Wait Time of 0.6 seconds. Add a new Node->Signals->timeout() signal. Attach the _on_Timer_timeout() method to the Enemy.gd script. That will create a new function at the bottom of your script. That function should appear as follows:
 ```
 func _on_Timer_timeout():
 	if Bullets == null:
@@ -100,8 +98,6 @@ func _integrate_forces(state):
 	t.origin.y = wrapf(t.origin.y,0,screensize.y)
 	state.set_transform(t)
 ```
-
-Finally, in the Node panel (tab next to the inspector panel). Select Groups, and make the Asteroid node part of the "asteroid" group.
 
 Save the scene as res://Asteroid/Asteroid.tscn. Close the scene and go back to res://Game.tscn.
 

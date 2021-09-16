@@ -25,10 +25,10 @@ func _physics_process(_delta):
 	velocity += get_input()*acceleration
 	velocity = velocity.normalized() * clamp(velocity.length(),0,max_speed)
 	var collision = move_and_collide(velocity,false)
-	if collision != null and collision.collider.is_in_group("asteroid"):
+	if collision != null and collision.collider is RigidBody2D:
 		collision.collider.apply_central_impulse(-collision.normal * push)
 		velocity = velocity + collision.normal*reflect
-	if collision != null and collision.collider.is_in_group("enemy"):
+	elif collision != null:
 		die()
 
 	if Input.is_action_just_pressed("shoot"):
