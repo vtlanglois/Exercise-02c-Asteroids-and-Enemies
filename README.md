@@ -2,6 +2,8 @@
 
 Exercise for MSCH-C220, 14 September 2021
 
+A demonstration of this exercise may be found at [https://youtu.be/l9izU78YPQ4](https://youtu.be/l9izU78YPQ4)
+
 This exercise is an opportunity for you to play with physics bodies and collisions in Godot. The exercise will give you several pieces that should be useful for your implementation of Project 02.
 
 Fork this repository. When that process has completed, make sure that the top of the repository reads [your username]/Exercise-02c-Asteroids-and-Enemies. Edit the LICENSE and replace BL-MSCH-C220-F21 with your full name. Commit your changes.
